@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Certification.Api/Certification.Api.csproj" />
+    <Project Path="src/Certification.Application/Certification.Application.csproj" />
+    <Project Path="src/Certification.Domain/Certification.Domain.csproj" />
+    <Project Path="src/Certification.Infrastructure/Certification.Infrastructure.csproj" />
+    <Project Path="src/Certification.Shared/Certification.Shared.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Certification.IntegrationTests/Certification.IntegrationTests.csproj" />
+    <Project Path="tests/Certification.UnitTests/Certification.UnitTests.csproj" />
+  </Folder>
+</Solution>
