@@ -1,3 +1,4 @@
+using Certification.Api.Extensions;
 using Certification.Application;
 using Certification.Infrastructure;
 using Serilog;
@@ -10,17 +11,9 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .Enrich.FromLogContext());
 
 builder.Services
-    .AddApplicationServices()
-    .AddInfrastructureServices(builder.Configuration);
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddHealthChecks()
-    .AddNpgSql(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured."),
-        name: "postgresql");
+    .AddApplicationServices(builder.Configuration)
+    .AddInfrastructureServices(builder.Configuration)
+    .AddApiServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -31,6 +24,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
+
+app.UseCors(ServiceCollectionExtensions.CorsPolicyName);
 
 app.MapHealthChecks("/health");
 
