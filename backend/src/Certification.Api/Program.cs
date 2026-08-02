@@ -11,18 +11,15 @@ builder.Host.AddApplicationLogging(builder.Configuration);
 builder.Services
     .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)
-    .AddApiServices(builder.Configuration);
+    .AddApiServices(builder.Configuration)
+    .AddSwaggerDocumentation();
 
 var app = builder.Build();
 
 app.UseCorrelationId();
 app.UseGlobalExceptionHandler();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwaggerDocumentation();
 
 app.UseSerilogRequestLogging();
 
