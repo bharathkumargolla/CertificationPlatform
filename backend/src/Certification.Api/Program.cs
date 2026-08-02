@@ -1,3 +1,4 @@
+using Certification.Api.Common.Extensions;
 using Certification.Api.Extensions;
 using Certification.Application;
 using Certification.Infrastructure;
@@ -13,6 +14,9 @@ builder.Services
     .AddApiServices(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseCorrelationId();
+app.UseGlobalExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
