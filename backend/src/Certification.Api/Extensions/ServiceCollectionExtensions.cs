@@ -6,11 +6,17 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddControllers();
+        services.AddProblemDetails();
+
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
+        }
+
         services.AddHealthChecks()
-            .AddNpgSql(
-                configuration.GetConnectionString("DefaultConnection")
-                    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured."),
-                name: "postgresql");
+            .AddNpgSql(connectionString, name: "postgresql");
 
         services.AddCorsPolicy(configuration);
 

@@ -25,6 +25,10 @@ app.UseSerilogRequestLogging();
 
 app.UseCors(ServiceCollectionExtensions.CorsPolicyName);
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapHealthChecks("/health");
+app.MapControllers();
 
 app.Run();

@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Certification.Domain\Certification.Domain.csproj" />
     <ProjectReference Include="..\Certification.Shared\Certification.Shared.csproj" />
+    <ProjectReference Include="..\Certification.Contracts\Certification.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

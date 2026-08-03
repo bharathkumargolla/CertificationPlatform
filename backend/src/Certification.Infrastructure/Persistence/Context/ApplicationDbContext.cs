@@ -14,6 +14,8 @@ public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, Ap
 
     public DbSet<Module> Modules => Set<Module>();
 
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
