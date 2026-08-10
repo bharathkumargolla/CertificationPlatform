@@ -3,8 +3,10 @@ using Certification.Application.Common.Configuration;
 using Certification.Application.Common.Interfaces;
 using Certification.Domain.Identity;
 using Certification.Infrastructure.Identity;
+using Certification.Infrastructure.Mapping;
 using Certification.Infrastructure.Persistence.Context;
 using Certification.Shared.Constants;
+using MapsterMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -102,6 +104,9 @@ public static class DependencyInjection
 
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+        services.AddSingleton<IMapper, ServiceMapper>();
+        services.AddScoped<IMapperService, MapsterMapperService>();
 
         return services;
     }

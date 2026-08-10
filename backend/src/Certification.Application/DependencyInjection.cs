@@ -1,6 +1,8 @@
 using System.Reflection;
 using Certification.Application.Common.Behaviors;
 using Certification.Application.Common.Configuration;
+using Certification.Application.Common.Mappings;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +28,10 @@ public static class DependencyInjection
             cfg.AddOpenBehavior(typeof(PerformanceBehavior<,>));
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
+
+        services.AddValidatorsFromAssembly(ApplicationAssembly);
+
+        services.AddMapsterConfiguration(ApplicationAssembly);
 
         return services;
     }

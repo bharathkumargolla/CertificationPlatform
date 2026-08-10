@@ -17,9 +17,6 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
     {
         if (!_validators.Any())
         {
-            // TODO: No FluentValidation validators are registered for TRequest yet.
-            // When commands/queries are introduced, add IValidator<TRequest> implementations
-            // and they will be picked up here automatically - no further wiring required.
             return await next();
         }
 
