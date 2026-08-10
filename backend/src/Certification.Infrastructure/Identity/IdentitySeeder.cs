@@ -1,4 +1,5 @@
 using Certification.Domain.Identity;
+using Certification.Shared.Constants;
 using Microsoft.AspNetCore.Identity;
 
 namespace Certification.Infrastructure.Identity;
@@ -7,10 +8,10 @@ public static class IdentitySeeder
 {
     private static readonly string[] RoleNames =
     [
-        "SuperAdmin",
-        "Admin",
-        "Trainer",
-        "Candidate",
+        Certification.Shared.Constants.RoleNames.SuperAdmin,
+        Certification.Shared.Constants.RoleNames.Admin,
+        Certification.Shared.Constants.RoleNames.Trainer,
+        Certification.Shared.Constants.RoleNames.Candidate,
     ];
 
     public static async Task SeedRolesAsync(RoleManager<ApplicationRole> roleManager)

@@ -1,3 +1,8 @@
+using Certification.Infrastructure.HealthChecks;
+using Certification.Shared.Constants;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
+
 namespace Certification.Api.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -16,12 +21,45 @@ public static class ServiceCollectionExtensions
         }
 
         services.AddHealthChecks()
-            .AddNpgSql(connectionString, name: "postgresql");
+            .AddNpgSql(connectionString, name: "postgresql")
+            .AddCheck<IdentityHealthCheck>("identity");
 
         services.AddCorsPolicy(configuration);
+        services.AddAuthenticationRateLimiting();
 
         return services;
     }
+
+    private static IServiceCollection AddAuthenticationRateLimiting(this IServiceCollection services)
+    {
+        services.AddRateLimiter(options =>
+        {
+            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+            options.AddPolicy(RateLimitPolicies.AuthLogin, httpContext =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: GetClientIp(httpContext),
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        Window = TimeSpan.FromMinutes(1),
+                        PermitLimit = 5,
+                    }));
+
+            options.AddPolicy(RateLimitPolicies.AuthRefresh, httpContext =>
+                RateLimitPartition.GetFixedWindowLimiter(
+                    partitionKey: GetClientIp(httpContext),
+                    factory: _ => new FixedWindowRateLimiterOptions
+                    {
+                        Window = TimeSpan.FromMinutes(1),
+                        PermitLimit = 10,
+                    }));
+        });
+
+        return services;
+    }
+
+    private static string GetClientIp(HttpContext httpContext) =>
+        httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
 
     private static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
     {

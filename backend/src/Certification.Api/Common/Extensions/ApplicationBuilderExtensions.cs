@@ -9,4 +9,7 @@ public static class ApplicationBuilderExtensions
 
     public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)
         => app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+    public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app)
+        => app.UseMiddleware<SecurityHeadersMiddleware>();
 }
