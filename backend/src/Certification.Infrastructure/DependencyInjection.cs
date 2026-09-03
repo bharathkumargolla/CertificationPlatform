@@ -108,6 +108,8 @@ public static class DependencyInjection
         services.AddSingleton<IMapper, ServiceMapper>();
         services.AddScoped<IMapperService, MapsterMapperService>();
 
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+
         return services;
     }
 }
