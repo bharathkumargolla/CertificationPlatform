@@ -2,7 +2,7 @@ using Certification.Application.Common.Interfaces;
 using Certification.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Certification.UnitTests.Modules;
+namespace Certification.UnitTests.Common;
 
 internal sealed class TestApplicationDbContext : DbContext, IApplicationDbContext
 {
@@ -12,6 +12,8 @@ internal sealed class TestApplicationDbContext : DbContext, IApplicationDbContex
     }
 
     public DbSet<Module> Modules => Set<Module>();
+
+    public DbSet<CertificationDefinition> Certifications => Set<CertificationDefinition>();
 
     public static TestApplicationDbContext Create()
     {

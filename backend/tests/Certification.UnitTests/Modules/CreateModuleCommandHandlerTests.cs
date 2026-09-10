@@ -1,5 +1,6 @@
 using Certification.Application.Modules.Commands.CreateModule;
 using Certification.Domain.Entities;
+using Certification.UnitTests.Common;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 

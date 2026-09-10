@@ -9,6 +9,12 @@ namespace Certification.IntegrationTests.Common;
 
 public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
+    // AddDbContext registers DbContextOptions<TContext> as Scoped by default, so the
+    // UseInMemoryDatabase name must be computed once per factory instance, not inside the
+    // options-configuration lambda - otherwise every new DI scope (each HTTP request, and any
+    // scope a test opens directly to seed data) would get its own randomly named, empty database.
+    private readonly string _databaseName = $"IntegrationTests-{Guid.NewGuid()}";
+
     public CustomWebApplicationFactory()
     {
         // Program.cs reads ConnectionStrings:DefaultConnection and Jwt:SecretKey directly from
@@ -42,7 +48,7 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
             }
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase($"ModulesIntegrationTests-{Guid.NewGuid()}"));
+                options.UseInMemoryDatabase(_databaseName));
 
             services.AddAuthentication(TestAuthenticationHandler.SchemeName)
                 .AddScheme<AuthenticationSchemeOptions, TestAuthenticationHandler>(

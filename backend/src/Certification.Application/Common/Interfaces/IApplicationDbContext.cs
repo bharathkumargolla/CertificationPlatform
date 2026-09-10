@@ -7,5 +7,7 @@ public interface IApplicationDbContext
 {
     DbSet<Module> Modules { get; }
 
+    DbSet<CertificationDefinition> Certifications { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
