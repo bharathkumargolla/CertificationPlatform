@@ -9,5 +9,9 @@ public interface IApplicationDbContext
 
     DbSet<CertificationDefinition> Certifications { get; }
 
+    DbSet<Question> Questions { get; }
+
+    DbSet<QuestionOption> QuestionOptions { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

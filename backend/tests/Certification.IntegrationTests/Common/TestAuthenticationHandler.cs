@@ -10,6 +10,7 @@ namespace Certification.IntegrationTests.Common;
 public sealed class TestAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
     public const string SchemeName = "Test";
+    public const string RoleHeaderName = "X-Test-Role";
 
     public TestAuthenticationHandler(
         IOptionsMonitor<AuthenticationSchemeOptions> options,
@@ -21,12 +22,16 @@ public sealed class TestAuthenticationHandler : AuthenticationHandler<Authentica
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
+        var role = Context.Request.Headers.TryGetValue(RoleHeaderName, out var headerValue)
+            ? headerValue.ToString()
+            : RoleNames.Admin;
+
         var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
             new("email", "integration-tests@certification.local"),
-            new("name", "Integration Test Admin"),
-            new(SecurityClaimTypes.Role, RoleNames.Admin),
+            new("name", $"Integration Test {role}"),
+            new(SecurityClaimTypes.Role, role),
         };
 
         var identity = new ClaimsIdentity(claims, SchemeName, nameType: ClaimTypes.NameIdentifier, roleType: SecurityClaimTypes.Role);

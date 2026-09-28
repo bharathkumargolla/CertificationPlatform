@@ -100,7 +100,8 @@ public static class DependencyInjection
             .AddPolicy(AuthorizationPolicies.SuperAdminOnly, policy => policy.RequireRole(RoleNames.SuperAdmin))
             .AddPolicy(AuthorizationPolicies.AdminOnly, policy => policy.RequireRole(RoleNames.Admin))
             .AddPolicy(AuthorizationPolicies.TrainerOnly, policy => policy.RequireRole(RoleNames.Trainer))
-            .AddPolicy(AuthorizationPolicies.CandidateOnly, policy => policy.RequireRole(RoleNames.Candidate));
+            .AddPolicy(AuthorizationPolicies.CandidateOnly, policy => policy.RequireRole(RoleNames.Candidate))
+            .AddPolicy(AuthorizationPolicies.AdminOrTrainer, policy => policy.RequireRole(RoleNames.Admin, RoleNames.Trainer));
 
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();

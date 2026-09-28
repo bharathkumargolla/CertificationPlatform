@@ -17,6 +17,10 @@ public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, Ap
 
     public DbSet<CertificationDefinition> Certifications => Set<CertificationDefinition>();
 
+    public DbSet<Question> Questions => Set<Question>();
+
+    public DbSet<QuestionOption> QuestionOptions => Set<QuestionOption>();
+
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

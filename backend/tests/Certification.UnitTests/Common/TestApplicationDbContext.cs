@@ -15,6 +15,10 @@ internal sealed class TestApplicationDbContext : DbContext, IApplicationDbContex
 
     public DbSet<CertificationDefinition> Certifications => Set<CertificationDefinition>();
 
+    public DbSet<Question> Questions => Set<Question>();
+
+    public DbSet<QuestionOption> QuestionOptions => Set<QuestionOption>();
+
     public static TestApplicationDbContext Create()
     {
         var options = new DbContextOptionsBuilder<TestApplicationDbContext>()
